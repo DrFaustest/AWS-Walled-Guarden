@@ -220,7 +220,7 @@ export class ErrorHandler {
         break;
 
       case 'Open Docs':
-        await vscode.env.openExternal(vscode.Uri.parse('https://github.com/username/aws-walled-garden#troubleshooting'));
+        await vscode.env.openExternal(vscode.Uri.parse('https://github.com/DrFaustest/AWS-Walled-Guarden#troubleshooting'));
         break;
     }
   }

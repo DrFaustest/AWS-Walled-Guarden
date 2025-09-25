@@ -1,53 +1,198 @@
 # AWS Walled Garden
 
+[![Version](https://img.shields.io/badge/version-0.0.1-blue.svg)](https://marketplace.visualstudio.com/items?itemName=DrFaustest.aws-walled-garden)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 A VS Code extension that creates a local development environment for AWS applications by mocking AWS services and intercepting API calls. This allows developers to work on AWS projects locally without needing actual AWS credentials, connections, or incurring cloud costs.
 
-## Overview
+## Features
 
-When devel4. **Fallback**: If no mock is configured, requests are forwarded to real AWS services
+### 🚀 Local AWS Development
+- **Zero AWS Costs**: Develop and test AWS applications locally without cloud resources
+- **No Credentials Required**: Work offline without AWS account setup
+- **Fast Iteration**: Instant feedback with local mock responses
 
-## IntelliSense & Auto-Complete
+### 🎯 Smart Auto-Configuration
+- **Automatic Detection**: Scans your codebase for AWS SDK usage
+- **Intelligent Mock Generation**: Creates appropriate mocks based on your code
+- **One-Click Setup**: Generate complete mock configurations instantly
 
-The extension provides intelligent auto-completion for `.aws-mock.json` configuration files to help you write valid configurations quickly.
+### 💡 Rich IntelliSense
+- **Schema Validation**: Real-time JSON validation with helpful error messages
+- **Context-Aware Suggestions**: Smart completions for AWS services and configurations
+- **Template Insertion**: Quick insertion of complete service configuration examples
 
-### Features
+### 🎨 GUI Configuration Editor
+- **Visual Interface**: User-friendly forms for configuring AWS services
+- **Real-time Validation**: Immediate feedback on configuration errors
+- **Service Management**: Add, remove, and configure services through dropdown menus
 
-- **Schema Validation**: Real-time validation against the JSON schema with inline error messages
-- **Property Suggestions**: Context-aware suggestions for configuration properties
-- **Service Auto-Complete**: Auto-completion for all supported AWS services (S3, DynamoDB, Lambda, SQS, SNS, etc.)
-- **Example Templates**: Quick insertion of complete service configuration examples
-- **Global Settings**: Suggestions for global configuration options like ports and logging levels
+### 🔧 Supported AWS Services
+- **S3** - Bucket and object operations
+- **DynamoDB** - Table operations and queries
+- **Lambda** - Function invocation mocking
+- **SQS** - Queue operations
+- **SNS** - Topic publishing
+- **And more...**
 
-### Using Auto-Complete
+## Installation
 
-1. Create or open a `.aws-mock.json` file in your workspace
-2. Start typing property names - IntelliSense will suggest valid options
-3. Use `Ctrl+Space` to trigger completion suggestions manually
-4. Select a service to get service-specific property suggestions
-5. Choose from example templates for quick setup
+### From VS Code Marketplace
+1. Open VS Code
+2. Go to Extensions (Ctrl+Shift+X)
+3. Search for "AWS Walled Garden"
+4. Click Install
 
-### Example
+### Manual Installation
+1. Download the `.vsix` file from [Releases](https://github.com/DrFaustest/AWS-Walled-Guarden/releases)
+2. In VS Code: Extensions → Install from VSIX...
+3. Select the downloaded `.vsix` file
 
-When you type `"services": {` and press `Ctrl+Space`, you'll see suggestions for all supported AWS services like:
+## Quick Start
 
-- `s3` - S3 bucket and object configurations
-- `dynamodb` - DynamoDB table configurations  
-- `lambda` - Lambda function mock responses
-- `sqs` - SQS queue configurations
-- `sns` - SNS topic configurations
+### 1. Auto-Configure Your Project
+1. Open your AWS project in VS Code
+2. Press `Ctrl+Shift+P` and run "AWS Walled Garden: Auto Configure Mocks"
+3. The extension will scan your code and generate appropriate mocks
 
-Selecting a service provides context-specific completions for that service's configuration options.
+### 2. Manual Configuration
+1. Create a `.aws-mock.json` file in your workspace root
+2. Use IntelliSense for guided configuration
+3. Or open the GUI Editor: "AWS Walled Garden: Open GUI Configuration Editor"
 
-## GUI Configuration Editor
+### 3. Start Developing
+- Enable the extension: "AWS Walled Garden: Enable"
+- Your AWS calls will now use local mocks
+- View logs: "AWS Walled Garden: Show Logs"
 
-For users who prefer a visual interface over editing JSON files directly, AWS Walled Garden provides a GUI Configuration Editor that offers form-based editing of your `.aws-mock.json` configuration files.
+## Configuration
 
-### Features
+### Basic Configuration
+```json
+{
+  "version": "1.0",
+  "services": {
+    "s3": {
+      "buckets": {
+        "my-bucket": {
+          "objects": {
+            "test-file.txt": {
+              "content": "Hello, World!",
+              "metadata": {
+                "ContentType": "text/plain"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```
 
-- **Visual Form Interface**: User-friendly forms for configuring global settings and AWS services
-- **Service Management**: Add, remove, and configure AWS services through dropdown menus
-- **Real-time Validation**: Immediate feedback on configuration errors with detailed error messages
-- **Auto-save**: Changes are automatically validated and can be saved to your configuration file
+### Global Settings
+```json
+{
+  "version": "1.0",
+  "global": {
+    "port": 3128,
+    "logLevel": "info"
+  },
+  "services": { ... }
+}
+```
+
+## Usage Examples
+
+### S3 Operations
+```javascript
+const AWS = require('aws-sdk');
+const s3 = new AWS.S3();
+
+// This will use your local mock instead of real AWS
+await s3.putObject({
+  Bucket: 'my-bucket',
+  Key: 'test.txt',
+  Body: 'Hello World'
+}).promise();
+```
+
+### DynamoDB Operations
+```javascript
+const AWS = require('aws-sdk');
+const dynamodb = new AWS.DynamoDB();
+
+// Local mock database operations
+await dynamodb.putItem({
+  TableName: 'Users',
+  Item: {
+    id: { S: 'user1' },
+    name: { S: 'John Doe' }
+  }
+}).promise();
+```
+
+## Commands
+
+| Command | Description |
+|---------|-------------|
+| `AWS Walled Garden: Enable` | Start the mock proxy server |
+| `AWS Walled Garden: Disable` | Stop the mock proxy server |
+| `AWS Walled Garden: Toggle` | Toggle extension on/off |
+| `AWS Walled Garden: Reload Configuration` | Reload mock configuration |
+| `AWS Walled Garden: Auto Configure Mocks` | Auto-generate mocks from your code |
+| `AWS Walled Garden: Open Configuration File` | Open `.aws-mock.json` |
+| `AWS Walled Garden: Open GUI Configuration Editor` | Open visual configuration editor |
+| `AWS Walled Garden: Show Logs` | View extension logs |
+
+## Requirements
+
+- **VS Code**: ^1.74.0
+- **Node.js**: For running the mock proxy server
+- **AWS SDK**: Your project should use AWS SDK v2 or v3
+
+## Extension Settings
+
+| Setting | Description | Default |
+|---------|-------------|---------|
+| `awsWalledGarden.configFile` | Path to mock configuration file | `.aws-mock.json` |
+| `awsWalledGarden.enabled` | Auto-enable extension on startup | `true` |
+
+## Troubleshooting
+
+### Common Issues
+
+**Port 3128 already in use**
+- The extension uses port 3128 for the proxy server
+- Stop other applications using this port or configure a different port in settings
+
+**Configuration validation errors**
+- Ensure your `.aws-mock.json` follows the correct schema
+- Use IntelliSense for guided configuration
+- Check the [Configuration Guide](docs/CONFIG.md) for examples
+
+**AWS calls not being mocked**
+- Ensure the extension is enabled
+- Check that your AWS SDK is configured to use the proxy
+- Verify your mock configuration matches your code
+
+### Getting Help
+
+- 📖 [Documentation](https://github.com/DrFaustest/AWS-Walled-Guarden)
+- 🐛 [Report Issues](https://github.com/DrFaustest/AWS-Walled-Guarden/issues)
+- 💬 [Discussions](https://github.com/DrFaustest/AWS-Walled-Guarden/discussions)
+
+## Contributing
+
+Contributions are welcome! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+
+## License
+
+MIT License - see [LICENSE](LICENSE) file for details.
+
+---
+
+**Made with ❤️ for AWS developers who want to develop locally, test quickly, and ship faster.**
 - **Service Templates**: Pre-configured templates for common AWS service setups
 
 ### Using the GUI Editor

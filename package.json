@@ -1,12 +1,16 @@
 {
   "name": "aws-walled-garden",
   "displayName": "AWS Walled Garden",
+  "description": "Create a local AWS development environment with zero costs. Mock AWS services (S3, DynamoDB, Lambda, SQS, SNS) and intercept API calls. Develop AWS applications locally without credentials, cloud resources, or charges.",
+  "publisher": "DrFaustest",
   "repository": {
     "type": "git",
-    "url": "https://github.com/username/aws-walled-garden.git"
+    "url": "https://github.com/DrFaustest/AWS-Walled-Guarden.git"
   },
+  "homepage": "https://github.com/DrFaustest/AWS-Walled-Guarden",
   "version": "0.0.1",
   "license": "MIT",
+  "keywords": ["aws", "mock", "development", "testing", "local", "cloud", "serverless", "s3", "dynamodb", "lambda"],
   "engines": {
     "vscode": "^1.74.0"
   },
@@ -94,7 +98,11 @@
     "lint": "eslint src --ext ts",
     "test": "node ./out/test/runTest.js",
     "test:coverage": "nyc npm test",
-    "package": "@vscode/vsce package"
+    "package": "@vscode/vsce package",
+    "release": "node scripts/release.js",
+    "release:patch": "node scripts/release.js patch",
+    "release:minor": "node scripts/release.js minor",
+    "release:major": "node scripts/release.js major"
   },
   "devDependencies": {
     "@types/glob": "^8.1.0",
