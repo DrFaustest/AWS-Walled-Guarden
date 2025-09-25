@@ -1,0 +1,32 @@
+{
+  "version": "1.0",
+  "services": {
+    "s3": {
+      "buckets": {
+        "example-bucket": {
+          "objects": {
+            "test-file.txt": {
+              "content": "Hello, World!",
+              "metadata": {
+                "ContentType": "text/plain"
+              }
+            }
+          }
+        }
+      }
+    },
+    "dynamodb": {
+      "tables": {
+        "Users": {
+          "items": [
+            {
+              "id": "user1",
+              "name": "John Doe",
+              "email": "john@example.com"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

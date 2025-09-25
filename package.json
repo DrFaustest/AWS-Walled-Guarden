@@ -1,0 +1,138 @@
+{
+  "name": "aws-walled-garden",
+  "displayName": "AWS Walled Garden",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/username/aws-walled-garden.git"
+  },
+  "version": "0.0.1",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "awsWalledGarden.enable",
+        "title": "Enable AWS Walled Garden"
+      },
+      {
+        "command": "awsWalledGarden.disable",
+        "title": "Disable AWS Walled Garden"
+      },
+      {
+        "command": "awsWalledGarden.reloadConfig",
+        "title": "Reload Configuration"
+      },
+      {
+        "command": "awsWalledGarden.showLogs",
+        "title": "Show Logs"
+      },
+      {
+        "command": "awsWalledGarden.autoConfigure",
+        "title": "Auto Configure Mocks"
+      },
+      {
+        "command": "awsWalledGarden.toggle",
+        "title": "Toggle AWS Walled Garden"
+      },
+      {
+        "command": "awsWalledGarden.openConfig",
+        "title": "Open Configuration File"
+      },
+      {
+        "command": "awsWalledGarden.showSchema",
+        "title": "Show Configuration Schema"
+      },
+      {
+        "command": "awsWalledGarden.installSdk",
+        "title": "Install AWS SDK"
+      },
+      {
+        "command": "awsWalledGarden.createTemplate",
+        "title": "Create Template Configuration"
+      },
+      {
+        "command": "awsWalledGarden.openGuiEditor",
+        "title": "Open GUI Configuration Editor"
+      }
+    ],
+    "jsonValidation": [
+      {
+        "fileMatch": ".aws-mock.json",
+        "url": "./aws-mock-config.schema.json"
+      }
+    ],
+    "configuration": {
+      "title": "AWS Walled Garden",
+      "properties": {
+        "awsWalledGarden.configFile": {
+          "type": "string",
+          "default": ".aws-mock.json",
+          "description": "Path to the mock configuration file"
+        },
+        "awsWalledGarden.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable/disable the extension"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js",
+    "test:coverage": "nyc npm test",
+    "package": "@vscode/vsce package"
+  },
+  "devDependencies": {
+    "@types/glob": "^8.1.0",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "16.x",
+    "@types/vscode": "^1.74.0",
+    "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "@typescript-eslint/parser": "^5.62.0",
+    "@vscode/test-electron": "^2.2.3",
+    "@vscode/vsce": "^3.6.1",
+    "eslint": "^8.57.1",
+    "glob": "^8.1.0",
+    "mocha": "^10.8.2",
+    "nyc": "^17.1.0",
+    "typescript": "5.1.6"
+  },
+  "nyc": {
+    "include": [
+      "out/**/*.js"
+    ],
+    "exclude": [
+      "out/test/**",
+      "out/**/*.test.js",
+      "out/test/setup.js"
+    ],
+    "extension": [
+      ".js"
+    ],
+    "reporter": [
+      "text",
+      "html",
+      "lcov"
+    ],
+    "all": true
+  },
+  "dependencies": {
+    "aws-sdk": "^2.1541.0",
+    "express": "^5.1.0",
+    "http-proxy": "^1.18.1"
+  }
+}

@@ -1,0 +1,118 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AWS Walled Garden Configuration",
+  "description": "Configuration file for AWS Walled Garden mock services",
+  "type": "object",
+  "required": ["version", "services"],
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Configuration file version",
+      "pattern": "^\\d+\\.\\d+$",
+      "examples": ["1.0", "1.1"]
+    },
+    "services": {
+      "type": "object",
+      "description": "AWS service configurations",
+      "patternProperties": {
+        "^(s3|dynamodb|sqs|sns|lambda|ec2|rds|cloudformation|iam|sts|ssm|secretsmanager|kms|cloudwatch|route53|elb|autoscaling|elasticache|redshift|athena|glue|stepfunctions|eventbridge|apigateway)$": {
+          "type": "object",
+          "description": "Service-specific configuration",
+          "properties": {
+            "port": {
+              "type": "integer",
+              "description": "Port number for this service (optional, defaults to service-specific port)",
+              "minimum": 1024,
+              "maximum": 65535
+            },
+            "endpoints": {
+              "type": "array",
+              "description": "Custom endpoints for this service",
+              "items": {
+                "type": "string",
+                "format": "uri"
+              }
+            },
+            "region": {
+              "type": "string",
+              "description": "AWS region for this service",
+              "pattern": "^(us|eu|ap|ca|sa|me|af)-(east|west|south|north|central|southeast|southwest|northeast|northwest)-\\d+$|^(us-gov|cn)-(east|west)-\\d+$",
+              "examples": ["us-east-1", "eu-west-1", "ap-southeast-1"]
+            }
+          },
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "global": {
+      "type": "object",
+      "description": "Global configuration options",
+      "properties": {
+        "port": {
+          "type": "integer",
+          "description": "Default port for all services",
+          "minimum": 1024,
+          "maximum": 65535,
+          "default": 3000
+        },
+        "host": {
+          "type": "string",
+          "description": "Host to bind the proxy server to",
+          "default": "localhost",
+          "examples": ["localhost", "0.0.0.0"]
+        },
+        "logLevel": {
+          "type": "string",
+          "description": "Logging level",
+          "enum": ["error", "warn", "info", "debug"],
+          "default": "info"
+        },
+        "recordRequests": {
+          "type": "boolean",
+          "description": "Whether to record all requests for debugging",
+          "default": false
+        },
+        "delayResponses": {
+          "type": "integer",
+          "description": "Artificial delay for responses in milliseconds",
+          "minimum": 0,
+          "default": 0
+        }
+      }
+    }
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "version": "1.0",
+      "services": {
+        "s3": {
+          "buckets": {
+            "my-bucket": {
+              "objects": {
+                "test-file.txt": {
+                  "content": "Hello World!",
+                  "contentType": "text/plain"
+                }
+              }
+            }
+          }
+        },
+        "dynamodb": {
+          "tables": {
+            "my-table": {
+              "items": [
+                {
+                  "id": "123",
+                  "name": "Test Item",
+                  "created": "2023-01-01T00:00:00Z"
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  ]
+}

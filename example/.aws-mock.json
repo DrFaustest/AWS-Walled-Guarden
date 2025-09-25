@@ -1,0 +1,74 @@
+{
+  "version": "1.0",
+  "services": {
+    "s3": {
+      "buckets": {
+        "my-test-bucket": {
+          "objects": {
+            "config.json": {
+              "content": "{\"apiKey\": \"mock-api-key-12345\", \"environment\": \"development\", \"databaseUrl\": \"mock://localhost:5432\"}",
+              "metadata": {
+                "ContentType": "application/json",
+                "LastModified": "2024-01-15T10:30:00Z"
+              }
+            },
+            "data.txt": {
+              "content": "This is mock file content for testing S3 operations.",
+              "metadata": {
+                "ContentType": "text/plain"
+              }
+            }
+          }
+        }
+      }
+    },
+    "dynamodb": {
+      "tables": {
+        "Users": {
+          "items": [
+            {
+              "id": "user1",
+              "name": "John Doe",
+              "email": "john.doe@example.com",
+              "role": "developer",
+              "createdAt": "2024-01-01T00:00:00Z"
+            },
+            {
+              "id": "user2",
+              "name": "Jane Smith",
+              "email": "jane.smith@example.com",
+              "role": "admin",
+              "createdAt": "2024-01-02T00:00:00Z"
+            }
+          ]
+        },
+        "Products": {
+          "items": [
+            {
+              "id": "prod1",
+              "name": "Mock Product",
+              "price": 29.99,
+              "category": "testing"
+            }
+          ]
+        }
+      }
+    },
+    "lambda": {
+      "functions": {
+        "myFunction": {
+          "response": {
+            "statusCode": 200,
+            "body": "{\"message\": \"Hello from AWS Walled Garden!\", \"timestamp\": \"2024-01-15T10:30:00Z\", \"requestId\": \"mock-request-123\"}"
+          }
+        },
+        "processData": {
+          "response": {
+            "statusCode": 200,
+            "body": "{\"result\": \"Data processed successfully\", \"processedItems\": 42}"
+          }
+        }
+      }
+    }
+  }
+}

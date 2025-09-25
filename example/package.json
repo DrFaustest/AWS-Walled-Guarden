@@ -1,0 +1,13 @@
+{
+  "name": "aws-walled-garden-example",
+  "version": "1.0.0",
+  "description": "Example project demonstrating AWS Walled Garden usage",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.1541.0",
+    "https-proxy-agent": "^7.0.2"
+  }
+}
